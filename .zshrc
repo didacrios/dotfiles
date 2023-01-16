@@ -105,3 +105,29 @@ alias goto-freshly-local='docker exec -it freshlypresta_web /bin/bash'
 alias docker-up-freshly='docker-compose -f ~/projects/dockerize/docker-compose.yml -p freshlycosmetics up'
 alias e.='xdg-open .'
 alias ssh-pre-freshly='ssh freshly@172.30.208.239'
+alias cdp='cd $HOME/projects'
+alias cdh='cd $HOME'
+alias lsl='ls -lah'
+alias gs='git status'
+alias gd='git diff'
+alias pro2local='docker exec --workdir="/var/www/html" -ti $(docker ps -aqf "name=^pro2local$") bash restoredb.sh --origin pre --destination local --prompt 0'
+
+_display_message() {
+  dirtomove=$(ls | fzf)
+  cd "$dirtomove"
+}
+
+zle         -N    _display_message
+bindkey  '^h'  _display_message
+
+_reverse_search() {
+  local selected_command=$(fc -rl 1 | awk '{$1="";print substr($0,2)}' | fzf)
+  LBUFFER=$selected_command
+}
+
+zle -N _reverse_search
+bindkey '^r' _reverse_search
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

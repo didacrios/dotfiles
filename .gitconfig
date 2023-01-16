@@ -1,0 +1,11 @@
+[user]
+	name = Dídac
+	email = didac.rios@freshlycosmetics.com
+[init]
+	defaultBranch = main
+
+[alias]
+  fixup = "!git log -n 50 --pretty=format:'%h %ad %an%x09%s' --date=format:'%Y-%m-%d %H:%M:%S' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+  slog  = "!git log --pretty=format:'%h%x09%an%x09%ad%x09%s'"
+[rebase]
+	autosquash = true
