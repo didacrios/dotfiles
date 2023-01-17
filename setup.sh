@@ -36,11 +36,13 @@ install lolcat
 
 figlet "Basic setup finished!" | lolcat
 
+OVPN_CERTIFICATE="files/didac.rios.openvpn"
 # Move OVPN certificate to new path
-#sudo cp files/didac.rios.openvpn /etc/openvpn/client.conf
-#sudo chmod +755 /etc/openvpn/client.conf
-#sudo systemctl daemon-reload
-
+if [ -f $OVPN_CERTIFICATE]; then
+  sudo cp files/didac.rios.openvpn /etc/openvpn/client.conf
+  sudo chmod +755 /etc/openvpn/client.conf
+  sudo systemctl daemon-reload
+fi
 
 # Install Docker
 echo "🐋 Installing Docker"
@@ -76,17 +78,6 @@ echo "📦 Installing npm"
 sudo apt-get install -y npm
 npm -v
 
-echo "🛠️ Installing JetBrains toolbox"
-wget --show-progress -qO ./toolbox.tar.gz "https://data.services.jetbrains.com/products/download?platform=linux&code=TBA"
-TOOLBOX_TEMP_DIR=$(mktemp -d)
-
-tar -C "$TOOLBOX_TEMP_DIR" -xf toolbox.tar.gz
-rm ./toolbox.tar.gz
-
-"$TOOLBOX_TEMP_DIR"/*/jetbrains-toolbox
-
-rm -r "$TOOLBOX_TEMP_DIR"
-
 echo "🔥 Installing Flameshot GUI screenshot"
 sudo apt install flameshot
 
@@ -95,9 +86,8 @@ sudo add-apt-repository ppa:peek-developers/stable
 sudo apt update -y
 sudo apt-fast install -y peek
 
-echo "💻 Intalling Oh My Zsh!"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-ln -s .zshrc ~/.zshrc
+echo "🐘 Installing PhpStorm"
+sudo snap install phpstorm --classic
 
 echo "⌨️  Installing VSCode"
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg

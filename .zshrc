@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias start-vpn='sudo openvpn --config ~/certificates/didac.rios.ovpn'
+alias start-vpn='sudo openvpn --config /etc/openvpn/client.conf'
 alias goto-freshly-local='docker exec -it freshlypresta_web /bin/bash'
 alias docker-up-freshly='docker-compose -f ~/projects/dockerize/docker-compose.yml -p freshlycosmetics up'
 alias e.='xdg-open .'
