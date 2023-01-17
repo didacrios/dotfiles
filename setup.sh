@@ -20,7 +20,6 @@ install git
 install terminator
 install htop
 install nmap
-install slack
 install openvpn
 install keepass2
 
@@ -33,6 +32,9 @@ install optipng
 # Fun stuff
 install figlet
 install lolcat
+
+# From snap
+sudo snap install slack
 
 figlet "Basic setup finished!" | lolcat
 
