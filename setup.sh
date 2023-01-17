@@ -21,7 +21,9 @@ install git
 install terminator
 install htop
 install nmap
+install slack
 install openvpn
+install keepass2
 
 # Image processing
 install gimp
@@ -155,3 +157,11 @@ code --install-extension xdebug.php-debug
 code --install-extension xdebug.php-pack
 code --install-extension YoshinoriN.current-file-path
 code --install-extension zobo.php-intellisense
+
+# Create home projects dir :)
+if [ ! -d "$HOME/projects" ]; then
+  mkdir "$HOME/projects"
+  echo "Directory 'projects' created in home directory."
+else
+  echo "Directory 'projects' already exists in home directory."
+fi
