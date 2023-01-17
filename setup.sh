@@ -14,7 +14,6 @@ function install {
 }
 
 # Basics
-install chromium-browser
 install curl
 install file
 install git
@@ -96,7 +95,6 @@ sudo add-apt-repository ppa:peek-developers/stable
 sudo apt update -y
 sudo apt-fast install -y peek
 
-
 echo "💻 Intalling Oh My Zsh!"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ln -s .zshrc ~/.zshrc
@@ -165,3 +163,5 @@ if [ ! -d "$HOME/projects" ]; then
 else
   echo "Directory 'projects' already exists in home directory."
 fi
+
+figlet "Welcome back!" | lolcat
