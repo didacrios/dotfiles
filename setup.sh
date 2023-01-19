@@ -9,7 +9,7 @@ function install {
     echo "Installing: ${1}..."
     sudo apt install -y $1
   else
-    echo "Already installed: ${1}"
+    echo "ℹ️  Already installed: ${1}"
   fi
 }
 
@@ -33,20 +33,9 @@ install optipng
 install figlet
 install lolcat
 
-# From snap
+echo "🗨️ Installing slack"
 sudo snap install slack
 
-figlet "Basic setup finished!" | lolcat
-
-OVPN_CERTIFICATE="files/didac.rios.openvpn"
-# Move OVPN certificate to new path
-if [ -f $OVPN_CERTIFICATE]; then
-  sudo cp files/didac.rios.openvpn /etc/openvpn/client.conf
-  sudo chmod +755 /etc/openvpn/client.conf
-  sudo systemctl daemon-reload
-fi
-
-# Install Docker
 echo "🐋 Installing Docker"
 sudo apt-get install -y \
     apt-transport-https \
@@ -64,7 +53,7 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo docker run hello-world
 sudo chmod 666 /var/run/docker.sock
 
-# Installing Docker Compose
+echo "🐋 Installing Docker Compose"
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
@@ -82,12 +71,15 @@ sudo apt-get install -y npm
 npm -v
 
 echo "🔥 Installing Flameshot GUI screenshot"
+echo "You must disable Wayland in gdm3 custom configuration to make flamewshot work"
+echo "Set option WaylandEnable=false"
+sudo nano /etc/gdm3/custom.conf
 sudo apt install flameshot
 
 echo "🎥 Installing Peek screen recorder"
 sudo add-apt-repository ppa:peek-developers/stable
 sudo apt update -y
-sudo apt-fast install -y peek
+sudo apt-get install -y peek
 
 echo "🐘 Installing PhpStorm"
 sudo snap install phpstorm --classic
@@ -158,3 +150,10 @@ else
 fi
 
 figlet "Welcome back!" | lolcat
+
+echo "You may want to set some settings manually"
+echo " ☐ VSCode settings "
+echo " ☐ PHP settings "
+echo " ☐ ssh configuration "
+echo " ☐ Generate ssh private keys "
+echo " ☐ Clone your projects in $HOME/projects"

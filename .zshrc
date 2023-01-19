@@ -111,6 +111,7 @@ alias lsl='ls -lah'
 alias gs='git status'
 alias gd='git diff'
 alias pro2local='docker exec --workdir="/var/www/html" -ti $(docker ps -aqf "name=^pro2local$") bash restoredb.sh --origin pre --destination local --prompt 0'
+alias pro2local-images='cd ~/projects/pro2local | bash restorefiles.sh --origin pre --destination local --onlyimages 1'
 
 _display_message() {
   dirtomove=$(ls | fzf)

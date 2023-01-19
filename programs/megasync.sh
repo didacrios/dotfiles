@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Get the system architecture
-architecture=$(uname -m)
 
 # Get the Ubuntu version number
 version=$(lsb_release -r | awk '{print $2}')
 
 # Build the download URL
-url="https://mega.nz/linux/MEGAsync/xUbuntu_${version}/${architecture}/megasync-xUbuntu_${version}_${architecture}.deb"
+url="https://mega.nz/linux/repo/xUbuntu_${version}/amd64/megasync-xUbuntu_${version}_amd64.deb"
 
 # Update package lists
 sudo apt-get update
@@ -16,7 +14,7 @@ sudo apt-get update
 wget $url
 
 # Install the package
-sudo apt-get install -y ./megasync-xUbuntu_${version}_${architecture}.deb
+sudo dpkg -i ./megasync-xUbuntu_${version}_amd64.deb
 
 # Remove the package file
-rm megasync-xUbuntu_${version}_${architecture}.deb
+rm ./megasync-xUbuntu_${version}_amd64.deb
