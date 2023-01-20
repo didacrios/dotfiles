@@ -22,6 +22,7 @@ install htop
 install nmap
 install openvpn
 install keepass2
+install xdotool
 
 # Image processing
 install gimp
@@ -33,8 +34,9 @@ install optipng
 install figlet
 install lolcat
 
-echo "🗨️ Installing slack"
+echo "🗨️ Installing slack & discord"
 sudo snap install slack
+sudo snap install discord
 
 echo "🐋 Installing Docker"
 sudo apt-get install -y \
