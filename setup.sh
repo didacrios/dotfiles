@@ -22,6 +22,8 @@ install htop
 install nmap
 install openvpn
 install keepass2
+install calibre
+install fzf
 install xdotool
 
 # Image processing
@@ -159,3 +161,9 @@ echo " ☐ PHP settings "
 echo " ☐ ssh configuration "
 echo " ☐ Generate ssh private keys "
 echo " ☐ Clone your projects in $HOME/projects"
+
+# symfony
+# echo "🐘 Installing symfony and PHP"
+#wget https://get.symfony.com/cli/installer -O - | bash
+#export PATH="$HOME/.symfony/bin:$PATH".
+#source ~/.bashrc
