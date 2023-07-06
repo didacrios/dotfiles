@@ -153,6 +153,20 @@ else
   echo "Directory 'projects' already exists in home directory."
 fi
 
+
+# Move scripts to bin
+scripts_dir="scripts"
+scripts_dir_destination="/usr/local/bin"
+
+for script_file in "$source_dir"/*.sh; do
+  script_name=$(basename "$script_file")
+  ln -s "$(realpath "$script_file")" "$destination_dir/$script_name"
+  echo "Adding script globaly $script_file
+done
+
+
+
+
 figlet "Welcome back!" | lolcat
 
 echo "You may want to set some settings manually"

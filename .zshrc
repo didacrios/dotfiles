@@ -101,7 +101,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias start-vpn='sudo openvpn --config /etc/openvpn/client.conf'
-alias goto-freshly-local='docker exec -it dockerize_freshlypresta_web /bin/bash'
 alias docker-up-freshly='docker-compose -f ~/projects/dockerize/docker-compose.yml up -d'
 alias e.='xdg-open .'
 alias ssh-pre-freshly='ssh freshly@172.30.208.239'
