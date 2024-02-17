@@ -88,6 +88,7 @@ sudo apt-get install -y peek
 echo "🐘 Installing PhpStorm"
 sudo snap install phpstorm --classic
 
+
 echo "⌨️  Installing VSCode"
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
@@ -97,53 +98,7 @@ sudo apt update
 sudo apt install -y code
 rm microsoft.gpg
 
-# TODO: Veure si això ho podem solventar amb el settings sync del IDE
-echo "Installing VSCodeExtensions"
-code --install-extension alefragnani.project-manager
-code --install-extension alexkrechik.cucumberautocomplete
-code --install-extension aswinkumar863.smarty-template-support
-code --install-extension atlassian.atlascode
-code --install-extension bmewburn.vscode-intelephense-client
-code --install-extension DavidAnson.vscode-markdownlint
-code --install-extension donjayamanne.githistory
-code --install-extension duboiss.sf-pack
-code --install-extension eamodio.gitlens
-code --install-extension EditorConfig.EditorConfig
-code --install-extension esbenp.prettier-vscode
-code --install-extension Glavin001.unibeautify-vscode
-code --install-extension imperez.smarty
-code --install-extension mblode.twig-language-2
-code --install-extension michelemelluso.code-beautifier
-code --install-extension mikestead.dotenv
-code --install-extension mkloubert.vscode-deploy-reloaded
-code --install-extension mrorz.language-gettext
-code --install-extension ms-azuretools.vscode-docker
-code --install-extension ms-mssql.data-workspace-vscode
-code --install-extension ms-mssql.mssql
-code --install-extension ms-mssql.sql-bindings-vscode
-code --install-extension ms-mssql.sql-database-projects-vscode
-code --install-extension ms-vscode-remote.remote-containers
-code --install-extension ms-vscode-remote.remote-wsl
-code --install-extension ms-vsliveshare.vsliveshare
-code --install-extension ms-vsliveshare.vsliveshare-audio
-code --install-extension nadim-vscode.symfony-code-snippets
-code --install-extension nadim-vscode.symfony-super-console
-code --install-extension octref.vetur
-code --install-extension phproberto.vscode-php-getters-setters
-code --install-extension redhat.vscode-commons
-code --install-extension redhat.vscode-yaml
-code --install-extension rexshi.phpdoc-comment-vscode-plugin
-code --install-extension ryu1kn.partial-diff
-code --install-extension SimonSiefke.prettier-vscode
-code --install-extension stevejpurves.cucumber
-code --install-extension TheNouillet.symfony-vscode
-code --install-extension wayou.vscode-todo-highlight
-code --install-extension whatwedo.twig
-code --install-extension Wscats.eno
-code --install-extension xdebug.php-debug
-code --install-extension xdebug.php-pack
-code --install-extension YoshinoriN.current-file-path
-code --install-extension zobo.php-intellisense
+
 
 # Create home projects dir :)
 if [ ! -d "$HOME/projects" ]; then
