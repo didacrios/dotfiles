@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/didac/.oh-my-zsh"
+export ZSH="~/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -100,18 +100,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias start-vpn='sudo openvpn --config /etc/openvpn/client.conf'
-alias docker-up-freshly='docker-compose -f ~/projects/dockerize/docker-compose.yml up -d'
-alias e.='xdg-open .'
-alias ssh-pre-freshly='ssh freshly@172.30.208.239'
 alias cdp='cd $HOME/projects'
 alias cdh='cd $HOME'
-alias lsl='ls -lah'
-alias gs='git status'
-alias gd='git diff'
-alias pre2local='docker exec --workdir="/var/www/html" -ti $(docker ps -aqf "name=^pro2local$") bash restoredb.sh --origin pre --destination local --prompt 1'
-alias pro2local='docker exec --workdir="/var/www/html" -ti $(docker ps -aqf "name=^pro2local$") bash restoredb.sh --origin prod --destination local --prompt 1'
-alias pro2local-images='cd ~/projects/pro2local | bash restorefiles.sh --origin pre --destination local --onlyimages 1'
 
 _display_message() {
   dirtomove=$(ls | fzf)

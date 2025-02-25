@@ -1,2 +1,14 @@
-freshlysetup.sh
-files/didac.rios.ovpn
+# OS X files
+
+.DS_Store
+.Trashes
+.Spotlight-V100
+
+# Misc
+*.log
+
+# VSCode
+.vscode
+
+# idea
+.idea

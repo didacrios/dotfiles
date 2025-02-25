@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# lock screen
+
+alias afk="osascript -e 'tell application \"System Events\" to sleep'"
+
+# open current directory in Finder
+
+alias finder="open ."
+alias o="open"
+
+# Shorter commands for Homebrew
+
+alias bi="brew install"
+alias br="brew uninstall"
+alias bs="brew search"
+alias bd="brew doctor"
+alias bu="brew update --quiet \
+    && brew upgrade \
+    && brew cleanup"
+
+# Clear the DNS cache
+
+alias clear-dns-cache="sudo dscacheutil -flushcache \
+    && sudo killall -HUP mDNSResponder"
+
+# Empty trash
+
+alias empty-trash="sudo rm -rfv ~/.Trash/*"
+
+
+# Update brew applications
+
+alias brew-update="sudo softwareupdate --install --all \
+    && brew update \
+    && brew upgrade \
+    && brew cleanup"

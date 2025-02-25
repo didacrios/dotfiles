@@ -1,0 +1,31 @@
+#!/bin/bash
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias cd..="cd .."
+
+alias cp="cp -iv"
+#             │└─ list copied files
+#             └─ prompt before overwriting an existing file
+
+alias mkdir="mkdir -pv"
+#                   │└─ list created directories
+#                   └─ create intermediate directories
+
+alias mv="mv -iv"
+#             │└─ list moved files
+#             └─ prompt before overwriting an existing file
+
+alias :q="exit"
+alias c="clear"
+alias d="~/Desktop"
+alias g="git"
+alias cdp="cd ~/projects"
+alias path='printf "%s\n" "${PATH//:/\n}"'
+alias q="exit"
+
+# Load specific os configs
+
+. "$OS/bash_aliases"
