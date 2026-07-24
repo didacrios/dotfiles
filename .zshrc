@@ -122,3 +122,21 @@ bindkey '^r' _reverse_search
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# bun completions
+[ -s "/home/didac/.bun/_bun" ] && source "/home/didac/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+#node
+export PATH=~/.npm-global/bin:$PATH
+
+# opencode
+export PATH=/home/didac/.opencode/bin:$PATH
+
+# pi
+export PATH="/home/didac/.local/share/pi-node/current/bin:$PATH"
+
+export PATH="$HOME/.local/bin:$PATH"

@@ -8,6 +8,19 @@ for cmd in spotdl ffmpeg jq; do
     fi
 done
 
+# Resolve script directory for finding extract_cookies.py
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+COOKIE_FILE="${SCRIPT_DIR}/cookies.txt"
+
+# Generate cookie file if it doesn't exist
+if [ ! -f "$COOKIE_FILE" ]; then
+    echo "Generating YouTube cookies..."
+    python3 "${SCRIPT_DIR}/extract_cookies.py"
+    if [ ! -f "$COOKIE_FILE" ]; then
+        echo "Warning: Failed to generate cookie file. YouTube downloads may fail."
+    fi
+fi
+
 # Function to extract metadata from a Spotify album URL
 extract_metadata() {
     local url="$1"
@@ -43,8 +56,14 @@ process_url() {
     mkdir -p "$dir_name"
     cd "$dir_name" || exit
 
+    # Build spotdl arguments
+    SPOTDL_ARGS="--bitrate 192k"
+    if [ -f "$COOKIE_FILE" ]; then
+        SPOTDL_ARGS="$SPOTDL_ARGS --cookie-file $COOKIE_FILE"
+    fi
+
     # Run spotdl command
-    if spotdl --bitrate 192k "$line"; then
+    if spotdl $SPOTDL_ARGS "$line"; then
         # If successful, remove the processed line from the input file if applicable
         if [[ -f "$INPUT_FILE" ]]; then
             sed -i "\|$line|d" "$INPUT_FILE"
@@ -64,11 +83,15 @@ for arg in "$@"
 do
   case $arg in
     --source=*)
-      INPUT_FILE="${arg#*=}"
+      INPUT_FILE="$(eval echo "${arg#*=}")"
       shift
       ;;
     --output=*)
-      OUTPUT_DIR="${arg#*=}"
+      OUTPUT_DIR="$(eval echo "${arg#*=}")"
+      shift
+      ;;
+    --cookies)
+      COOKIE_FILE="$(eval echo "${arg#*=}")"
       shift
       ;;
     *)
@@ -80,7 +103,7 @@ done
 
 # Check if input file or URL is set
 if [ -z "$INPUT_FILE" ]; then
-    echo "Usage: $0 --source=/path/to/input.txt|https://spotify.link [--output=/path/to/output_dir]"
+    echo "Usage: $0 --source=/path/to/input.txt|https://spotify.link [--output=/path/to/output_dir] [--cookies=/path/to/cookies.txt]"
     exit 1
 fi
 
