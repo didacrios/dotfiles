@@ -12,3 +12,8 @@
 
 # idea
 .idea
+
+freshlysetup.sh
+files/didac.rios.ovpn
+# Local Pi runtime state
+.atl/

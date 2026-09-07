@@ -57,22 +57,27 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo docker run hello-world
 sudo chmod 666 /var/run/docker.sock
 
-echo "🐋 Installing Docker Compose"
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-docker-compose --version
+echo "🐋 Installing Docker Compose plugin"
+sudo apt-get install -y docker-compose-plugin
+docker compose version
 
 echo "💎 Installling Ruby"
 sudo apt-get install -y ruby-full
 gem install compass
 
-echo "🟢 Installing nodeJS"
-sudo apt-get install -y nodejs
+echo "🟢 Installing Node.js via NVM"
+export NVM_DIR="$HOME/.nvm"
+if [ ! -d "$NVM_DIR" ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+fi
+. "$NVM_DIR/nvm.sh"
+nvm install --lts
+nvm use --lts
 node -v
-
-echo "📦 Installing npm"
-sudo apt-get install -y npm
 npm -v
+
+echo "📦 Installing pnpm"
+npm install -g pnpm
 
 echo "🔥 Installing Flameshot GUI screenshot"
 echo "You must disable Wayland in gdm3 custom configuration to make flamewshot work"
@@ -98,7 +103,28 @@ sudo apt update
 sudo apt install -y code
 rm microsoft.gpg
 
+echo "💿 Installing balenaEtcher"
+wget -q https://github.com/balena-io/etcher/releases/download/v2.1.6/balena-etcher_2.1.6_amd64.deb -O /tmp/balena-etcher.deb
+sudo dpkg -i /tmp/balena-etcher.deb
+sudo apt-get install -f -y
+rm /tmp/balena-etcher.deb
 
+echo "🐋 Installing Orca ADE"
+wget -q https://github.com/stablyai/orca/releases/download/v1.4.152/orca-linux.AppImage -O /tmp/orca.AppImage
+chmod +x /tmp/orca.AppImage
+sudo mv /tmp/orca.AppImage /usr/local/bin/orca
+
+echo "⚡ Installing Warp Terminal"
+curl -fsSL https://app.warp.dev/get_warp?package=deb -o /tmp/warp.deb
+sudo dpkg -i /tmp/warp.deb
+sudo apt-get install -f -y
+rm /tmp/warp.deb
+
+echo "🔧 Installing Cursor"
+curl -fsSL https://www2.cursor.com/download/linux-deb -o /tmp/cursor.deb
+sudo dpkg -i /tmp/cursor.deb
+sudo apt-get install -f -y
+rm /tmp/cursor.deb
 
 # Create home projects dir :)
 if [ ! -d "$HOME/projects" ]; then
@@ -116,7 +142,7 @@ scripts_dir_destination="/usr/local/bin"
 for script_file in "$source_dir"/*.sh; do
   script_name=$(basename "$script_file")
   ln -s "$(realpath "$script_file")" "$destination_dir/$script_name"
-  echo "Adding script globaly $script_file
+  echo "Adding script globally $script_file"
 done
 
 

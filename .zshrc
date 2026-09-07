@@ -140,3 +140,11 @@ export PATH=/home/didac/.opencode/bin:$PATH
 export PATH="/home/didac/.local/share/pi-node/current/bin:$PATH"
 
 export PATH="$HOME/.local/bin:$PATH"
+
+# direnv hook for automatic environment loading
+eval "$(direnv hook zsh)"
+
+# Aliases for pi and opencode with automatic env loading
+# set -a auto-exports all variables; set +a turns it off
+alias pi="set -a; source ~/.pi/.env 2>/dev/null; set +a; command pi"
+alias opencode="set -a; source ~/.config/opencode/.env 2>/dev/null; set +a; command opencode"
