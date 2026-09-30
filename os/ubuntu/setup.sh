@@ -110,9 +110,44 @@ sudo apt-get install -f -y
 rm /tmp/balena-etcher.deb
 
 echo "🐋 Installing Orca ADE"
-wget -q https://github.com/stablyai/orca/releases/download/v1.4.152/orca-linux.AppImage -O /tmp/orca.AppImage
-chmod +x /tmp/orca.AppImage
-sudo mv /tmp/orca.AppImage /usr/local/bin/orca
+# Orca ships as an AppImage: a self-contained asset rather than a system command.
+# It is installed per-user in ~/.local/opt and reached through the ~/.local/bin/onorca
+# wrapper, which os/symlinks.sh links into place. /usr/local/bin is avoided on
+# purpose: a root-owned AppImage cannot replace itself when Orca self-updates.
+orca_appimage_dir="$HOME/.local/opt/orca"
+orca_appimage="$orca_appimage_dir/orca-linux.AppImage"
+# Version-independent asset URL, so the latest release is always installed.
+orca_url="https://github.com/stablyai/orca/releases/latest/download/orca-linux.AppImage"
+
+if [ -f "$orca_appimage" ]; then
+  echo "ℹ️  Already installed: orca ($orca_appimage)"
+else
+  echo "⬇️  Downloading the latest orca-linux.AppImage"
+  # Download to .part first: a truncated download must never look installed,
+  # because $orca_appimage being executable is what the wrapper checks.
+  mkdir -p "$orca_appimage_dir"
+  if wget -q --show-progress "$orca_url" -O "$orca_appimage.part"; then
+    mv "$orca_appimage.part" "$orca_appimage"
+    chmod +x "$orca_appimage"
+  else
+    echo "❌ Orca download failed: $orca_url"
+    rm -f "$orca_appimage.part"
+  fi
+fi
+
+# shell/desktop/orca.desktop looks the icon up by name in the icon theme, so
+# extract it from the AppImage itself: it then always matches the installed
+# version, with no binary asset to keep in the repository. --appimage-extract
+# unpacks into the current directory, hence the temporary one.
+orca_icon_source="usr/share/icons/hicolor/512x512/apps/orca-ide.png"
+orca_icon="$HOME/.local/share/icons/hicolor/512x512/apps/orca-ide.png"
+
+if [ -x "$orca_appimage" ] && { [ ! -f "$orca_icon" ] || [ "$orca_appimage" -nt "$orca_icon" ]; }; then
+  orca_extract_dir="$(mktemp -d)"
+  ( cd "$orca_extract_dir" && "$orca_appimage" --appimage-extract "$orca_icon_source" > /dev/null )
+  install -Dm644 "$orca_extract_dir/squashfs-root/$orca_icon_source" "$orca_icon"
+  rm -rf "$orca_extract_dir"
+fi
 
 echo "⚡ Installing Warp Terminal"
 curl -fsSL https://app.warp.dev/get_warp?package=deb -o /tmp/warp.deb
@@ -135,18 +170,9 @@ else
 fi
 
 
-# Move scripts to bin
-scripts_dir="scripts"
-scripts_dir_destination="/usr/local/bin"
-
-for script_file in "$source_dir"/*.sh; do
-  script_name=$(basename "$script_file")
-  ln -s "$(realpath "$script_file")" "$destination_dir/$script_name"
-  echo "Adding script globally $script_file"
-done
-
-
-
+# Scripts, shell configs and desktop entries are linked into $HOME by
+# os/symlinks.sh, which the root setup.sh runs as its generic "create symlinks"
+# step before dispatching to this script.
 
 figlet "Welcome back!" | lolcat
 

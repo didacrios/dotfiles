@@ -4,6 +4,16 @@
 MIN_UBUNTU_VERSION="24.04"
 MIN_MACOS_VERSION="15.3.1"
 
+# Absolute path to the repository, so this script works from any directory.
+dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Generic setup, shared by every OS, and run before the OS-specific script.
+# setup: 1 create symlinks
+link_dotfiles() {
+    echo "🔗 Linking dotfiles into $HOME"
+    "$dotfiles_dir/os/symlinks.sh"
+}
+
 # Function to compare version numbers
 version_ge() {
     [ "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
@@ -19,7 +29,8 @@ if [[ "$OS_TYPE" == "Linux" ]]; then
         if [[ "$OS_NAME" == "ubuntu" ]]; then
             if version_ge "$OS_VERSION" "$MIN_UBUNTU_VERSION"; then
                 echo "Ubuntu version is supported: $OS_VERSION"
-                exec ./os/ubuntu/setup.sh
+                link_dotfiles
+                exec "$dotfiles_dir/os/ubuntu/setup.sh"
             else
                 echo "Ubuntu version is too old. Minimum required is $MIN_UBUNTU_VERSION. Detected: $OS_VERSION"
                 exit 1
@@ -37,7 +48,8 @@ elif [[ "$OS_TYPE" == "Darwin" ]]; then
     OS_VERSION=$(sw_vers -productVersion)
     if version_ge "$OS_VERSION" "$MIN_MACOS_VERSION"; then
         echo "macOS version is supported: $OS_VERSION"
-        exec ./os/macos/setup.sh
+        link_dotfiles
+        exec "$dotfiles_dir/os/macos/setup.sh"
     else
         echo "macOS version is too old. Minimum required is $MIN_MACOS_VERSION. Detected: $OS_VERSION"
         exit 1
@@ -49,7 +61,6 @@ else
 fi
 
 # TODO generic setup
-# setup: 1 create symlinks
 # setup: 2 create .local config files ??
 # setup: 3 install software brew (mac)
 # setup: 4 setup system preferences (mac)
