@@ -2,7 +2,7 @@
 Type=Application
 Name=Orca
 Comment=Next-gen IDE for parallel agentic development
-Exec=/home/didac/.local/bin/onorca %U
+Exec=onorca %U
 Icon=orca-ide
 Terminal=false
 StartupWMClass=orca
