@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Orca
+Comment=Next-gen IDE for parallel agentic development
+Exec=/home/didac/.local/bin/onorca %U
+Icon=orca-ide
+Terminal=false
+StartupWMClass=orca
+Categories=Utility;
+MimeType=text/markdown;x-scheme-handler/orca;

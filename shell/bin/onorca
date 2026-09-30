@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# onorca — launch the Orca IDE AppImage.
+#
+# The AppImage is kept outside PATH on purpose: ~/.local/opt holds the asset,
+# ~/.local/bin holds the entry point. This wrapper is the entry point, so it
+# also works from scripts, .desktop launchers and non-interactive shells,
+# which a zsh alias would not.
+#
+# --no-sandbox is required on Ubuntu 24.04+: the Chromium sandbox needs
+# unprivileged user namespaces, and AppArmor blocks them for unconfined
+# AppImages (kernel.apparmor_restrict_unprivileged_userns=1).
+#
+# Usage: onorca [orca arguments...]
+
+set -euo pipefail
+
+readonly APPIMAGE="${HOME}/.local/opt/orca/orca-linux.AppImage"
+
+if [[ ! -x "$APPIMAGE" ]]; then
+  printf 'onorca: AppImage missing or not executable: %s\n' "$APPIMAGE" >&2
+  printf 'onorca: download orca-linux.AppImage into %s\n' "${APPIMAGE%/*}" >&2
+  exit 1
+fi
+
+exec "$APPIMAGE" --no-sandbox "$@"
