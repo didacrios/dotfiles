@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="~/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -141,10 +141,42 @@ export PATH="/home/didac/.local/share/pi-node/current/bin:$PATH"
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# heic2jpg — convert .heic files to .jpg
+# Usage: dot-heic2jpg <file.heic | directory> [--dry-run]
+if [[ -x "$HOME/projects/didacrios/dotfiles/os/ubuntu/scripts/heic2jpg.sh" ]]; then
+  alias dot-heic2jpg="$HOME/projects/didacrios/dotfiles/os/ubuntu/scripts/heic2jpg.sh"
+elif [[ -x "${HOME}/scripts/heic2jpg.sh" ]]; then
+  alias dot-heic2jpg="${HOME}/scripts/heic2jpg.sh"
+fi
+
+# dot-download-album — download a Spotify album as local FLAC/MP3
+# Supports multiple audio sources (comma-separated fallback): youtube-music, piped, youtube
+# Configurable delay between tracks and retries
+# Usage: dot-download-album https://open.spotify.com/album/... [--output=/path] [--audio=src1,src2] [--delay=45] [--retries=3]
+# Env: AUDIO_PROVIDERS=yt-music,piped, YouTube | DELAY_BETWEEN_SONGS=45 | RETRY_COUNT=3
+if [[ -x "$HOME/projects/didacrios/dotfiles/os/ubuntu/scripts/download-album.sh" ]]; then
+  alias dot-download-album="$HOME/projects/didacrios/dotfiles/os/ubuntu/scripts/download-album.sh"
+elif [[ -x "${HOME}/scripts/download-album.sh" ]]; then
+  alias dot-download-album="${HOME}/scripts/download-album.sh"
+fi
+
+# dot-download-track — download a single Spotify track
+# Supports multiple audio sources (comma-separated fallback): youtube-music, piped, youtube
+# Configurable retries
+# Usage: dot-download-track https://open.spotify.com/track/... [--output=/path] [--audio=src1,src2] [--retries=3]
+# Env: AUDIO_PROVIDERS=yt-music,piped, YouTube | RETRY_COUNT=3
+if [[ -x "$HOME/projects/didacrios/dotfiles/os/ubuntu/scripts/download-track.sh" ]]; then
+  alias dot-download-track="$HOME/projects/didacrios/dotfiles/os/ubuntu/scripts/download-track.sh"
+elif [[ -x "${HOME}/scripts/download-track.sh" ]]; then
+  alias dot-download-track="${HOME}/scripts/download-track.sh"
+fi
+
 # direnv hook for automatic environment loading
 eval "$(direnv hook zsh)"
 
 # Aliases for pi and opencode with automatic env loading
 # set -a auto-exports all variables; set +a turns it off
-alias pi="set -a; source ~/.pi/.env 2>/dev/null; set +a; command pi"
+# Lead pin (2026-10-01): qwen3.8-flash/high for the main session — overrides anything in
+# ~/.pi/.env after sourcing. Keep PI_MODEL out of .env to avoid a second source of truth.
+alias pi="set -a; source ~/.pi/.env 2>/dev/null; set +a; export PI_MODEL=nan/qwen3.8-flash PI_REASONING_LEVEL=high; command pi"
 alias opencode="set -a; source ~/.config/opencode/.env 2>/dev/null; set +a; command opencode"
