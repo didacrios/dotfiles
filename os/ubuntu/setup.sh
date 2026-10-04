@@ -94,14 +94,7 @@ echo "🐘 Installing PhpStorm"
 sudo snap install phpstorm --classic
 
 
-echo "⌨️  Installing VSCode"
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-sudo apt install -y apt-transport-https
-sudo apt update
-sudo apt install -y code
-rm microsoft.gpg
+# VSCode removed — not needed.
 
 echo "💿 Installing balenaEtcher"
 wget -q https://github.com/balena-io/etcher/releases/download/v2.1.6/balena-etcher_2.1.6_amd64.deb -O /tmp/balena-etcher.deb
@@ -149,11 +142,10 @@ if [ -x "$orca_appimage" ] && { [ ! -f "$orca_icon" ] || [ "$orca_appimage" -nt 
   rm -rf "$orca_extract_dir"
 fi
 
-echo "⚡ Installing Warp Terminal"
-curl -fsSL https://app.warp.dev/get_warp?package=deb -o /tmp/warp.deb
-sudo dpkg -i /tmp/warp.deb
-sudo apt-get install -f -y
-rm /tmp/warp.deb
+echo "🔧 Installing Pi (Coding Agent)"
+pnpm add -g --ignore-scripts @earendil-works/pi-coding-agent
+pi --version
+pi --version
 
 echo "🔧 Installing Cursor"
 curl -fsSL https://www2.cursor.com/download/linux-deb -o /tmp/cursor.deb
@@ -177,7 +169,6 @@ fi
 figlet "Welcome back!" | lolcat
 
 echo "You may want to set some settings manually"
-echo " ☐ VSCode settings "
 echo " ☐ PHP settings "
 echo " ☐ ssh configuration "
 echo " ☐ Generate ssh private keys "
